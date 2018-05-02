@@ -1,0 +1,9 @@
+IniciaPrograma
+
+config
+
+ciclo
+
+funcion
+
+17
