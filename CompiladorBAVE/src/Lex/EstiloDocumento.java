@@ -28,11 +28,11 @@ public class EstiloDocumento extends DefaultStyledDocument{
         
         //Colores
         cont = StyleContext.getDefaultStyleContext();
-        red = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.RED);
+        red = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, new Color(252, 53, 10));
         black = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.BLACK);
-        blue = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, Color.blue);
+        blue = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, new Color(12, 92, 234));
         orange = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, new Color(163,102,12));
-        verAz = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, new Color(26,115,86));
+        verAz = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, new Color(202, 30, 219));
         azF = cont.addAttribute(cont.getEmptySet(), StyleConstants.Foreground, new Color(98,49,83));
     }//Fin constructor
     
@@ -58,13 +58,13 @@ public class EstiloDocumento extends DefaultStyledDocument{
                             setCharacterAttributes(wordL, wordR - wordL, verAz, false);
                         } else if (texto.substring(wordL, wordR).matches("(\\W)*(temporizador|entero|decimal|caracter|verdadero|falso)")) {
                             setCharacterAttributes(wordL, wordR - wordL, blue, false);
-                        } else if (texto.substring(wordL, wordR).matches("(\\W)*(salidaDato|EntradaDato|compuertaAbierta"
+                        } else if (texto.substring(wordL, wordR).matches("(\\W)*(salidaDato|entradaDato|compuertaAbierta"
                                 + "|compuertaCerrada|comprimir|detectarParada|detectarContenedor|detectarAnomalia|"
                                 + "vaciarContenedor|capacidadContenedor|estadoLinea|sobrecupo|avanzar|detener|"
                                 + "estadoEnergia|detectarSensor|modalidadSensor|ENTRADA|SALIDA|ALTO|vaciarContenedor"
                                 + "soltarContenedor|vaciarCamion)")) {
-                            setCharacterAttributes(wordL, wordR - wordL, orange, false);
-                        }else if (texto.substring(wordL, wordR).matches("(\\W)*(Config|Ciclo|mientras)")) {
+                            setCharacterAttributes(wordL, wordR - wordL, blue, false);
+                        }else if (texto.substring(wordL, wordR).matches("(\\W)*(config|ciclo|mientras)")) {
                             setCharacterAttributes(wordL, wordR - wordL, verAz, false);
                         }  else{
                             setCharacterAttributes(wordL, wordR - wordL, black, false);
