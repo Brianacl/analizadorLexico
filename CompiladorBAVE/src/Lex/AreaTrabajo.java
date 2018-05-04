@@ -14,13 +14,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.naming.Context;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showConfirmDialog;
@@ -112,8 +108,15 @@ public class AreaTrabajo extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         paneSalida = new javax.swing.JTextPane();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        menuArchivo = new javax.swing.JMenu();
+        menuNuevo = new javax.swing.JMenuItem();
+        menuAbrir = new javax.swing.JMenuItem();
+        menuGuardar = new javax.swing.JMenuItem();
+        menuGuardarComo = new javax.swing.JMenuItem();
+        menuSalir = new javax.swing.JMenuItem();
+        menuOpciones = new javax.swing.JMenu();
+        menuCompilar = new javax.swing.JMenuItem();
+        menuAcercaDe = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1200, 700));
@@ -247,11 +250,81 @@ public class AreaTrabajo extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        menuArchivo.setText("Archivo");
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        menuNuevo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        menuNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/New Copy_16px.png"))); // NOI18N
+        menuNuevo.setText("Nuevo");
+        menuNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuNuevoActionPerformed(evt);
+            }
+        });
+        menuArchivo.add(menuNuevo);
+
+        menuAbrir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        menuAbrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/View File_16px.png"))); // NOI18N
+        menuAbrir.setText("Abrir");
+        menuAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuAbrirActionPerformed(evt);
+            }
+        });
+        menuArchivo.add(menuAbrir);
+
+        menuGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
+        menuGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Save_16px_1.png"))); // NOI18N
+        menuGuardar.setText("Guardar");
+        menuGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuGuardarActionPerformed(evt);
+            }
+        });
+        menuArchivo.add(menuGuardar);
+
+        menuGuardarComo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        menuGuardarComo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Save as_16px.png"))); // NOI18N
+        menuGuardarComo.setText("Guardar como");
+        menuGuardarComo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuGuardarComoActionPerformed(evt);
+            }
+        });
+        menuArchivo.add(menuGuardarComo);
+
+        menuSalir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        menuSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Exit Sign_16px.png"))); // NOI18N
+        menuSalir.setText("Salir");
+        menuSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuSalirActionPerformed(evt);
+            }
+        });
+        menuArchivo.add(menuSalir);
+
+        jMenuBar1.add(menuArchivo);
+
+        menuOpciones.setText("Opciones");
+
+        menuCompilar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        menuCompilar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Code_16px.png"))); // NOI18N
+        menuCompilar.setText("Compilar");
+        menuCompilar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuCompilarActionPerformed(evt);
+            }
+        });
+        menuOpciones.add(menuCompilar);
+
+        jMenuBar1.add(menuOpciones);
+
+        menuAcercaDe.setText("Acerca de...");
+        menuAcercaDe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuAcercaDeMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(menuAcercaDe);
 
         setJMenuBar(jMenuBar1);
 
@@ -314,10 +387,63 @@ public class AreaTrabajo extends javax.swing.JFrame {
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
-      int opcion =  showConfirmDialog(null, "Realmente desea salir de BAVE?", "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+      int opcion =  showConfirmDialog(null, "¿Realmente desea salir de BAVE?", "Confirmar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
       if(opcion == 0)
           System.exit(0);
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void menuNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNuevoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuNuevoActionPerformed
+
+    private void menuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSalirActionPerformed
+        // TODO add your handling code here:
+        int opcion = showConfirmDialog(null, "¿Realmente desea salir de BAVE?", "Confirmar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if(opcion == 0)
+            System.exit(0);
+    }//GEN-LAST:event_menuSalirActionPerformed
+
+    private void menuCompilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCompilarActionPerformed
+        try {
+            // TODO add your handling code here:
+            compilar();
+        } catch (Exception ex) {
+            Logger.getLogger(AreaTrabajo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_menuCompilarActionPerformed
+
+    private void menuAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAbrirActionPerformed
+        // TODO add your handling code here:
+        JFileChooser AbrirA = new JFileChooser();
+        AbrirA.setFileFilter(filter);
+        int opcion = AbrirA.showOpenDialog(this);
+        if(opcion==JFileChooser.APPROVE_OPTION){
+            direccionArchivo = AbrirA.getSelectedFile().getPath();
+            textPane.setText(new Archivo().abrirArchivo(direccionArchivo));
+        }
+        else
+            showMessageDialog(this,"No se selecciono ningun archivo","Advertencia!", JOptionPane.WARNING_MESSAGE);
+    }//GEN-LAST:event_menuAbrirActionPerformed
+
+    private void menuGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGuardarActionPerformed
+        // TODO add your handling code here:
+        guardarArchivo();
+    }//GEN-LAST:event_menuGuardarActionPerformed
+
+    private void menuGuardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGuardarComoActionPerformed
+        // TODO add your handling code here:
+        String temp = direccionArchivo;
+        direccionArchivo = "";
+        if(!guardarArchivo())
+            direccionArchivo = temp;
+    }//GEN-LAST:event_menuGuardarComoActionPerformed
+
+    private void menuAcercaDeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuAcercaDeMouseClicked
+        // TODO add your handling code here:
+        showMessageDialog(this, ">> Compilador BABE 0.1 <<\n"+
+                                "Brian Alejandro Casas López\n"+
+                                "Victor Emmanuel Castillo Corrales");
+    }//GEN-LAST:event_menuAcercaDeMouseClicked
 
     private void compilar() throws IOException, Exception {
         //Variables del metodo
@@ -355,7 +481,7 @@ public class AreaTrabajo extends javax.swing.JFrame {
                     mostrarResultado += "\n*** Ejecucion finalizada ***\n";
     }//Fin compilar
     
-    public void guardarArchivo(){
+    public boolean guardarArchivo(){
         if(direccionArchivo.equals("")){
             try{
                     JFileChooser guardarA = new JFileChooser();
@@ -368,6 +494,7 @@ public class AreaTrabajo extends javax.swing.JFrame {
                         save.write(textPane.getText());
                         save.close();
                         paneSalida.setText("¡Se guardo correctamente!\n");
+                        return true;
                     }
                 }catch(IOException ex){
                     System.out.println(ex);
@@ -385,6 +512,7 @@ public class AreaTrabajo extends javax.swing.JFrame {
                 System.out.println(e);
             }
         }
+        return false;
     }//Fin guardarArchivo
     /**
      * @param args the command line arguments
@@ -429,15 +557,22 @@ public class AreaTrabajo extends javax.swing.JFrame {
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JMenuItem menuAbrir;
+    private javax.swing.JMenu menuAcercaDe;
+    private javax.swing.JMenu menuArchivo;
+    private javax.swing.JMenuItem menuCompilar;
+    private javax.swing.JMenuItem menuGuardar;
+    private javax.swing.JMenuItem menuGuardarComo;
+    private javax.swing.JMenuItem menuNuevo;
+    private javax.swing.JMenu menuOpciones;
+    private javax.swing.JMenuItem menuSalir;
     private javax.swing.JPanel paneAreaTrabajo;
     private javax.swing.JPanel paneBotones;
     private javax.swing.JTextPane paneSalida;
     private javax.swing.JTextPane textPane;
     // End of variables declaration//GEN-END:variables
-}
+}//Fin clase

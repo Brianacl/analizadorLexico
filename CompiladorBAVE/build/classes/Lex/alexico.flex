@@ -480,3 +480,4 @@ SALTO=\n|\r|\r\n
     tokens.add(t);
     return t;
 }
+[^]   {throw new Error("Caracter ilegal < "+ yytext() +" >");} 

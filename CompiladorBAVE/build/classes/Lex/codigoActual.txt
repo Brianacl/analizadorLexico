@@ -1,9 +1,1 @@
-IniciaPrograma
-
-config
-
-ciclo
-
-funcion
-
-17
+Variable
