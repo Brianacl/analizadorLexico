@@ -70,6 +70,8 @@ public class AreaTrabajo extends javax.swing.JFrame {
         filter = new FileNameExtensionFilter("Archivos Vehiculo Recolector de Basura","bave");
         direccionArchivo= "";
         btnGenerar.setVisible(false);
+        paneSalida.setEditable(false);
+        paneTablaSimbolos.setEditable(false);
         setLocationRelativeTo(null);
         this.setResizable(false);
     }//Fin constructor
@@ -485,7 +487,6 @@ public class AreaTrabajo extends javax.swing.JFrame {
         String entrada = "src/lex/codigoActual.txt";
         //////GUARDANDO CÓDIGO
         String codigo = textPane.getText();
-        System.out.println(codigo);
         File archivoDeCodigo = new File("src/lex/codigoActual.txt");
         FileWriter escribe = new FileWriter(archivoDeCodigo, false);
         escribe.write(codigo);
@@ -502,13 +503,11 @@ public class AreaTrabajo extends javax.swing.JFrame {
                             token = a.nextToken();
                             System.out.println("TOKEN lo trae?--> "+token);
                             if(token.tipo.substring(0, 5).equals("Error")){
-                                System.out.println("TOKEN if--> "+token);
                                 StyleConstants.setForeground(style, Color.red);
                                 doc.insertString(doc.getLength(), token+"\n",style);
                                 compilo = false;
                             }
                             else {
-                                System.out.println("TOKEN else--> "+token);
                                 StyleConstants.setForeground(style, Color.black);
                                 doc.insertString(doc.getLength(), token+"\n",style);
                                 mostrarResultado +=token +"\n";
@@ -553,7 +552,7 @@ public class AreaTrabajo extends javax.swing.JFrame {
                         return true;
                     }
                 }catch(IOException ex){
-                    System.out.println(ex);
+                    
                 }
         }
         else{
@@ -565,7 +564,7 @@ public class AreaTrabajo extends javax.swing.JFrame {
                 writer.close();
                 paneSalida.setText("¡Se guardo correctamente!\n");
             }catch(FileNotFoundException e){
-                System.out.println(e);
+               
             }
         }
         return false;

@@ -1,1 +1,1 @@
-Token #1: config | Componente léxico: config [Linea: 1, columna: 0]
+Error: Los identificadores no pueden iniciar con mayuscula < O > | [Linea: 1, columna: 0]

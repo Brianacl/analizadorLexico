@@ -992,14 +992,14 @@ public class AnalizadorLexico {
             }
           case 64: break;
           case 3: 
-             if(!eliminar){
+            { if(!eliminar){
                 contador++;
                 Yytoken t = new Yytoken(contador,yytext(),"id",yyline+1,yycolumn,false);
                 tokens.add(t);
                 return t;
                 }
                 eliminar = false;
-            
+            }
           case 65: break;
           case 4: 
             { contador++;

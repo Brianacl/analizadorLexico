@@ -100,7 +100,7 @@ EXP_ALPHANUMERIC={EXP_ALPHA}|{EXP_DIGITO}
 ENTERO={SIGNO}({EXP_DIGITO})+ | ({EXP_DIGITO})+
 FLOTANTE ={SIGNO}({EXP_DIGITO})+.({EXP_DIGITO})+ | ({EXP_DIGITO})+.({EXP_DIGITO})+ 
 EXPONENTE = {FLOTANTE}(E|e){ENTERO} | {ENTERO}(E|e){ENTERO}
-IDENTIFICADOR={EXP_ALPHA_MINUS}({EXP_ALPHANUMERIC})*
+ID={EXP_ALPHA_MINUS}({EXP_ALPHANUMERIC})*
 ESPACIO=" "
 CARAC_ESPECIAL=[@!%&#¿?',.]
 SALTO=\n|\r|\r\n|\t
@@ -369,7 +369,7 @@ SALTO=\n|\r|\r\n|\t
     return t;
 }
 
-{IDENTIFICADOR}   {
+{ID}   {
     if(!eliminar){
                 contador++;
                 Yytoken t = new Yytoken(contador,yytext(),"id",yyline+1,yycolumn,false);
@@ -540,12 +540,6 @@ SALTO=\n|\r|\r\n|\t
     return t;
 }
 
-"!"   {
-    contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"operador_logico_not",yyline+1,yycolumn,false);
-    tokens.add(t);
-    return t;
-}
 {ESPACIO} {
  	//ignorar
 }
