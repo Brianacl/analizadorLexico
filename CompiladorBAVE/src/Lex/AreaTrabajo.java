@@ -78,7 +78,7 @@ public class AreaTrabajo extends javax.swing.JFrame {
         //Filtro para filechooser
         filter = new FileNameExtensionFilter("Archivos Vehiculo Recolector de Basura","bave");
         direccionArchivo= "";
-        //btnGenerar.setVisible(false);
+        btnGenerar.setVisible(false);
         paneSalida.setEditable(false);
         setLocationRelativeTo(null);
          this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -540,10 +540,10 @@ public class AreaTrabajo extends javax.swing.JFrame {
         
         boolean compilo = true;
         paneSalida.setText("");
-        String entrada = "src/Lex/codigoActual.txt";
+        String entrada = "codigoActual.txt";
         //////GUARDANDO CÓDIGO
         String codigo = textPane.getText();
-        File archivoDeCodigo = new File("src/lex/codigoActual.txt");
+        File archivoDeCodigo = new File("codigoActual.txt");
         FileWriter escribe = new FileWriter(archivoDeCodigo, false);
         escribe.write(codigo);
         escribe.close();
