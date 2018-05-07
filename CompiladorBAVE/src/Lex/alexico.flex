@@ -104,6 +104,7 @@ ID={EXP_ALPHA_MINUS}({EXP_ALPHANUMERIC})*
 ESPACIO=" "
 CARAC_ESPECIAL=[@!%&#¿?',.]
 SALTO=\n|\r|\r\n|\t
+NUMERO_INVALIDO = .({EXP_DIGITO})+ | ({EXP_DIGITO})+.
 //fin declaraciones
 
 /* Seccion de reglas lexicas */
@@ -375,6 +376,12 @@ SALTO=\n|\r|\r\n|\t
 {EXPONENTE} {
     contador++;
     Yytoken t = new Yytoken(contador,yytext(),"NUM_EXPONENTE",yyline+1,yycolumn,false);
+    tokens.add(t);
+    return t;
+}
+
+{NUMERO_INVALIDO} {
+    Yytoken t = new Yytoken(contador,"Error","Número no valido (falta numero antes o despues de < . >)",yyline+1,yycolumn,true);
     tokens.add(t);
     return t;
 }

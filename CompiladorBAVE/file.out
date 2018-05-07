@@ -1,2 +1,4 @@
-Token #1: + | Componente léxico: SUMA [Linea: 1]
-Token #2: - | Componente léxico: RESTA [Linea: 1]
+Token #1: 0.12 | Componente léxico: NUM_FLOTANTE [Linea: 1]
+Error: Número no valido (falta numero antes o despues de < . >) | [Linea: 2]
+Token #2: 12.0 | Componente léxico: NUM_FLOTANTE [Linea: 3]
+Error: Número no valido (falta numero antes o despues de < . >) | [Linea: 4]
