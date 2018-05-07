@@ -94,6 +94,7 @@ class Yytoken {
 //Declaraciones
 SIGNO = [-+]
 EXP_ALPHA_MINUS=[a-z]
+EXP_ALPHA_MAYUS=[A-Z]
 EXP_ALPHA=[A-Za-z_áéíóú]
 EXP_DIGITO=[0-9]
 EXP_ALPHANUMERIC={EXP_ALPHA}|{EXP_DIGITO}
@@ -105,6 +106,7 @@ ESPACIO=" "
 CARAC_ESPECIAL=[@!%&#¿?',.]
 SALTO=\n|\r|\r\n|\t
 NUMERO_INVALIDO = .({EXP_DIGITO})+ | ({EXP_DIGITO})+.
+IDENTIFICADOR_INVALIDO = {EXP_ALPHA_MAYUS} ({EXP_ALPHA}|{EXP_DIGITO})*
 //fin declaraciones
 
 /* Seccion de reglas lexicas */
@@ -382,6 +384,12 @@ NUMERO_INVALIDO = .({EXP_DIGITO})+ | ({EXP_DIGITO})+.
 
 {NUMERO_INVALIDO} {
     Yytoken t = new Yytoken(contador,"Error","Número no valido (falta numero antes o despues de < . >)",yyline+1,yycolumn,true);
+    tokens.add(t);
+    return t;
+}
+
+{IDENTIFICADOR_INVALIDO} {
+    Yytoken t = new Yytoken(contador,"Error","Los identificadores no pueden iniciar con MAYUSCULAS < "+yytext()+" >",yyline+1,yycolumn,true);
     tokens.add(t);
     return t;
 }

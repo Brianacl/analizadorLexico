@@ -1,4 +1,1 @@
-Token #1: 0.12 | Componente léxico: NUM_FLOTANTE [Linea: 1]
-Error: Número no valido (falta numero antes o despues de < . >) | [Linea: 2]
-Token #2: 12.0 | Componente léxico: NUM_FLOTANTE [Linea: 3]
-Error: Número no valido (falta numero antes o despues de < . >) | [Linea: 4]
+Error: Los identificadores no pueden iniciar con MAYUSCULAS < AFDSFASDh > | [Linea: 1]
