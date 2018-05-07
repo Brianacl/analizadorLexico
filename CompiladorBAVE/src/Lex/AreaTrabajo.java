@@ -78,7 +78,7 @@ public class AreaTrabajo extends javax.swing.JFrame {
         //Filtro para filechooser
         filter = new FileNameExtensionFilter("Archivos Vehiculo Recolector de Basura","bave");
         direccionArchivo= "";
-        //btnGenerar.setVisible(false);
+        btnGenerar.setVisible(false);
         paneSalida.setEditable(false);
         setLocationRelativeTo(null);
          this.setExtendedState(JFrame.MAXIMIZED_BOTH);
