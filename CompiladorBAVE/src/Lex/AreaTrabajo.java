@@ -81,7 +81,6 @@ public class AreaTrabajo extends javax.swing.JFrame {
         btnGenerar.setVisible(false);
         paneSalida.setEditable(false);
         setLocationRelativeTo(null);
-         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setResizable(false);
     }//Fin constructor
 
