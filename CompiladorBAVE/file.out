@@ -1,1 +1,2 @@
-Error: Los identificadores no pueden iniciar con mayuscula < O > | [Linea: 1, columna: 0]
+Token #1: + | Componente léxico: SUMA [Linea: 1]
+Token #2: - | Componente léxico: RESTA [Linea: 1]

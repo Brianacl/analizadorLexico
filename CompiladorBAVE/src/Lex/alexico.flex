@@ -29,12 +29,12 @@ class Yytoken {
     public int linea;
     public int columna;
     public boolean error;
-    //Metodo que devuelve los datos necesarios que escribiremos en un archive de salida
+    //Metodo que devuelve los datos necesarios que escribiremos en un archivo de salida
     public String toString() {
         if(error){
-            return tipo+" < "+token+" > | [Linea: "+linea+", columna: " +columna + "]";
+            return token +": "+ tipo+" | [Linea: "+linea+"]";
         }
-        return "Token #"+numToken+": "+token+" | Componente léxico: "+tipo+" [Linea: "+linea+", columna: " +columna + "]";
+        return "Token #"+numToken+": "+token+" | Componente léxico: "+tipo+" [Linea: "+linea+"]";
     }
 }//Fin clase Yytoken
 /* Seccion de opciones y declaraciones de JFlex */
@@ -92,9 +92,9 @@ class Yytoken {
 
 //Expresiones regulares
 //Declaraciones
-SIGNO = [+-]
+SIGNO = [-+]
 EXP_ALPHA_MINUS=[a-z]
-EXP_ALPHA=[A-Za-z_]
+EXP_ALPHA=[A-Za-z_áéíóú]
 EXP_DIGITO=[0-9]
 EXP_ALPHANUMERIC={EXP_ALPHA}|{EXP_DIGITO}
 ENTERO={SIGNO}({EXP_DIGITO})+ | ({EXP_DIGITO})+
@@ -112,217 +112,203 @@ SALTO=\n|\r|\r\n|\t
 
 {ENTERO}    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"num_entero",yyline+1,yycolumn,false);
-    tokens.add(t);
-    return t;
-}
-
-{FLOTANTE}    {
-    contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"num_flotante",yyline+1,yycolumn,false);
-    tokens.add(t);
-    return t;
-}
-
-{EXPONENTE} {
-    contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"num_exponente",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"NUM_ENTERO",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "IniciaPrograma"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"IniciaPrograma",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "si"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"si",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "funcion"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"funcion",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "sino"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"sino",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "ciclo"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"ciclo",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "entero"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"entero",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "flotante"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"flotante",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "verdadero"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"verdadero",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "falso"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"falso",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "config"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"config",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "salidaDato"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"salidaDato",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "entradaDato"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"entradaDato",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "compuertaAbierta"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"compuertaAbierta",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "compuertaCerrada"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"compuertaCerrada",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "comprimir"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"comprimir",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "detectarParada"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"detectarParada",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "detectarContenedor"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"detectarAnomalia",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "vaciarContenedor"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"vaciarContenedor",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "capacidadContenedor"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"capacidadContenedor",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "estadoLinea"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"estadoLinea",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "sobrecupo"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"sobrecupo",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "avanzar"   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"avanzar",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "detener"   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"detener",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "estadoEnergia"   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"estadoEnergia",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "detectarSensor"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"detectarSensor",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "modalidadSensor"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"modalidadSensor",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "ENTRADA"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"ENTRADA",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "SALIDA"   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"SALIDA",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
@@ -336,206 +322,213 @@ SALTO=\n|\r|\r\n|\t
 
 "vaciarContenedor"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"vaciarContenedor",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "soltarContenedor"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"soltarContenedor",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "temporizador"    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"temporizador",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "mientras"   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"mientras",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "vaciarCamion"   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"vaciarCamion",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PALABRA_RESERVADA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 {ID}   {
     if(!eliminar){
-                contador++;
-                Yytoken t = new Yytoken(contador,yytext(),"id",yyline+1,yycolumn,false);
-                tokens.add(t);
-                return t;
-                }
-                eliminar = false;
+        contador++;
+        Yytoken t = new Yytoken(contador,yytext(),"ID",yyline+1,yycolumn,false);
+        tokens.add(t);
+        return t;
+    }
+    eliminar = false;
 }
 
-"="  {
+{FLOTANTE}    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"asignacion",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"NUM_FLOTANTE",yyline+1,yycolumn,false);
+    tokens.add(t);
+    return t;
+}
+
+{EXPONENTE} {
+    contador++;
+    Yytoken t = new Yytoken(contador,yytext(),"NUM_EXPONENTE",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "=="   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"comparacion",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"IGUAL_QUE",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "="  {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"asignacion",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"ASIGNACION",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "<"  {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"menor_que",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"MENOR_QUE",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 ">"  {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"mayor_que",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"MAYOR_QUE",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "<="   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"menor_igual",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"MENOR_IGUAL",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 ">="   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"mayor_igual",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"MAYOR_IGUAL",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "!="   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"diferente_de",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"DISTINTO_DE",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "+"   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"suma",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"SUMA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "-"   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"resta",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"RESTA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "*"   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"multiplicacion",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"MULTIPLICACION",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "/"   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"division",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"DIVISION",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "++"   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"incremento",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"INCREMENTO_UNO",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "--"   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"decremento",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"DECREMENTO_UNO",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "+="   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"suma_asigna",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"SUMA_ASIGNA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "-="   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"resta_asigna",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"RESTA_ASIGNA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "*="   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"multipli_asinga",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"MULTIPLI_ASIGNA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 ";" {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"punto_coma",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"PUNTO_COMA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "{" {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"llave_abre",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"LLAVE_ABRE",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "}" {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"llave_cierra",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"LLAVE_CIERRA",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 {CARAC_ESPECIAL}    {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"caracter_especial",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"CARACTER_ESPECIAL",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "&&"   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"operador_logico_and",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"OP_LOG_AND",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
 
 "||"   {
     contador++;
-    Yytoken t = new Yytoken(contador,yytext(),"operador_logico_or",yyline+1,yycolumn,false);
+    Yytoken t = new Yytoken(contador,yytext(),"OP_LOG_OR",yyline+1,yycolumn,false);
     tokens.add(t);
     return t;
 }
@@ -548,7 +541,7 @@ SALTO=\n|\r|\r\n|\t
    //Ignorar
 }
 [^]   {if(Character.isUpperCase(yytext().charAt(0))){
-                    Yytoken t = new Yytoken(0, yytext(), "Error: Los identificadores no pueden iniciar con mayuscula", yyline+1, yycolumn, true);
+                    Yytoken t = new Yytoken(0, "Error", "Los identificadores no pueden iniciar con mayuscula < "+ yytext()+" >", yyline+1, yycolumn, true);
                     tokens.add(t);
                     eliminar = true;
                     return t;

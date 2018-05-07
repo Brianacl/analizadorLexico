@@ -7,6 +7,7 @@ package Lex;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,17 +18,17 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
+import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 import org.jw.menage.ui.components.TextLineNumber;
 
@@ -36,29 +37,37 @@ import org.jw.menage.ui.components.TextLineNumber;
  * @author titab
  */
 public class AreaTrabajo extends javax.swing.JFrame {
-    TextLineNumber numeroLinea;
+    private TextLineNumber numeroLinea;
+    private DefaultTableModel tableModel;
+    private String[] titulos;
     
     private static ArrayList<String> listaErrores;
-    StyledDocument doc;
-    Style style;
+    private StyledDocument doc;
+    private Style style;
     private DefaultTableModel dtm;
     
     private FileNameExtensionFilter filter;
     
-    String direccionArchivo;
+    private String direccionArchivo;
     /**
      * Creates new form AreaTrabajo
      */
     public AreaTrabajo() {
         //this.setLocationRelativeTo(null);
         initComponents();
+        doc = new EstiloDocumento(textPane);
+        iniciarComponentesTabla();
+        Image icon = new ImageIcon(getClass().getResource("/Imagenes/logo.png")).getImage();
+        setIconImage(icon);
+        
         //Componentes
-        numeroLinea= new TextLineNumber(textPane, 4);
         textPane.requestFocus();
+        textPane.setDocument(doc);
         textPane.setFont(textPane.getFont().deriveFont(15f));
+        
+        numeroLinea= new TextLineNumber(textPane, 4);
         numeroLinea.setBackground(Color.white);
-        textPane.setDocument(new EstiloDocumento(textPane));
-        paneAreaTrabajo.add(numeroLinea, BorderLayout.EAST);
+        PanelTexto1.add(numeroLinea, BorderLayout.WEST);
         
         //Listas
         listaErrores = new ArrayList<>();
@@ -71,11 +80,18 @@ public class AreaTrabajo extends javax.swing.JFrame {
         direccionArchivo= "";
         btnGenerar.setVisible(false);
         paneSalida.setEditable(false);
-        paneTablaSimbolos.setEditable(false);
         setLocationRelativeTo(null);
+         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setResizable(false);
     }//Fin constructor
 
+    
+    private void iniciarComponentesTabla(){
+        tableModel = new DefaultTableModel();
+        titulos = new String[] {"Lexema", "Componente"};
+        tableModel.setColumnIdentifiers(titulos);
+        tablaSimbolos.setModel(tableModel);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -92,12 +108,13 @@ public class AreaTrabajo extends javax.swing.JFrame {
         btnCompilar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         paneAreaTrabajo = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        Panel_Central = new javax.swing.JScrollPane();
+        PanelTexto1 = new javax.swing.JPanel();
         textPane = new javax.swing.JTextPane();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        paneTablaSimbolos = new javax.swing.JTextPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaSimbolos = new javax.swing.JTable();
         btnGenerar = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        paneAbajo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         paneSalida = new javax.swing.JTextPane();
@@ -113,6 +130,7 @@ public class AreaTrabajo extends javax.swing.JFrame {
         menuAcercaDe = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Compilador BAVE 0.1");
         setBackground(new java.awt.Color(153, 153, 153));
         setPreferredSize(new java.awt.Dimension(1200, 700));
 
@@ -174,28 +192,59 @@ public class AreaTrabajo extends javax.swing.JFrame {
 
         paneAreaTrabajo.setBackground(new java.awt.Color(51, 51, 51));
 
-        jScrollPane2.setViewportView(textPane);
+        Panel_Central.setPreferredSize(new java.awt.Dimension(1002, 20));
 
-        jScrollPane3.setViewportView(paneTablaSimbolos);
+        PanelTexto1.setLayout(new java.awt.BorderLayout());
+
+        textPane.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        PanelTexto1.add(textPane, java.awt.BorderLayout.CENTER);
+
+        Panel_Central.setViewportView(PanelTexto1);
+
+        tablaSimbolos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Lexema", "Componente"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tablaSimbolos);
+        if (tablaSimbolos.getColumnModel().getColumnCount() > 0) {
+            tablaSimbolos.getColumnModel().getColumn(0).setResizable(false);
+            tablaSimbolos.getColumnModel().getColumn(0).setPreferredWidth(40);
+        }
 
         javax.swing.GroupLayout paneAreaTrabajoLayout = new javax.swing.GroupLayout(paneAreaTrabajo);
         paneAreaTrabajo.setLayout(paneAreaTrabajoLayout);
         paneAreaTrabajoLayout.setHorizontalGroup(
             paneAreaTrabajoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneAreaTrabajoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 736, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(paneAreaTrabajoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(paneAreaTrabajoLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(Panel_Central, javax.swing.GroupLayout.PREFERRED_SIZE, 920, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(106, Short.MAX_VALUE)))
         );
         paneAreaTrabajoLayout.setVerticalGroup(
             paneAreaTrabajoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(paneAreaTrabajoLayout.createSequentialGroup()
-                .addGroup(paneAreaTrabajoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE))
+            .addGroup(paneAreaTrabajoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneAreaTrabajoLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(Panel_Central, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)))
         );
 
         btnGenerar.setText("GENERAR");
@@ -210,9 +259,9 @@ public class AreaTrabajo extends javax.swing.JFrame {
         paneBotonesLayout.setHorizontalGroup(
             paneBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(paneBotonesLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(paneBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(paneBotonesLayout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnAbrir, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -220,12 +269,12 @@ public class AreaTrabajo extends javax.swing.JFrame {
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCompilar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 222, Short.MAX_VALUE)
                         .addComponent(btnGenerar)
                         .addGap(18, 18, 18)
-                        .addComponent(btnSalir)
-                        .addContainerGap())
-                    .addComponent(paneAreaTrabajo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnSalir))
+                    .addComponent(paneAreaTrabajo, javax.swing.GroupLayout.DEFAULT_SIZE, 1036, Short.MAX_VALUE))
+                .addContainerGap())
         );
         paneBotonesLayout.setVerticalGroup(
             paneBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -235,20 +284,19 @@ public class AreaTrabajo extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addGroup(paneBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAbrir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnCompilar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnGenerar))
-                        .addGap(7, 7, 7))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, paneBotonesLayout.createSequentialGroup()
+                            .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(paneBotonesLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(paneAreaTrabajo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(paneBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnGenerar))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(paneAreaTrabajo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+        paneAbajo.setBackground(new java.awt.Color(51, 51, 51));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -256,27 +304,26 @@ public class AreaTrabajo extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(paneSalida);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout paneAbajoLayout = new javax.swing.GroupLayout(paneAbajo);
+        paneAbajo.setLayout(paneAbajoLayout);
+        paneAbajoLayout.setHorizontalGroup(
+            paneAbajoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneAbajoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1180, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(paneAbajoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(paneAbajoLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(4, 4, 4)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+        paneAbajoLayout.setVerticalGroup(
+            paneAbajoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(paneAbajoLayout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
 
         menuArchivo.setText("Archivo");
@@ -361,15 +408,15 @@ public class AreaTrabajo extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(paneAbajo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(paneBotones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(paneBotones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(paneAbajo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -390,6 +437,10 @@ public class AreaTrabajo extends javax.swing.JFrame {
     private void btnCompilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompilarActionPerformed
         // TODO add your handling code here:
         try{
+            if(textPane.getText().length() < 1){
+                showMessageDialog(null, "No hay nada que analizar");
+                return;
+            }
             compilar();
         } catch (Exception ex) {
             Logger.getLogger(AreaTrabajo.class.getName()).log(Level.SEVERE, null, ex);
@@ -436,6 +487,10 @@ public class AreaTrabajo extends javax.swing.JFrame {
     private void menuCompilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCompilarActionPerformed
         try {
             // TODO add your handling code here:
+            if(textPane.getText().length() < 1){
+                showMessageDialog(null, "No hay nada que analizar");
+                return;
+            }
             compilar();
         } catch (Exception ex) {
             Logger.getLogger(AreaTrabajo.class.getName()).log(Level.SEVERE, null, ex);
@@ -481,10 +536,11 @@ public class AreaTrabajo extends javax.swing.JFrame {
     
     private void compilar() throws IOException, Exception {
         //Variables del metodo
+        iniciarComponentesTabla();
+        
         boolean compilo = true;
         paneSalida.setText("");
-        String mostrarResultado = "TABLA DE SIMBOLOS\n";
-        String entrada = "src/lex/codigoActual.txt";
+        String entrada = "src/Lex/codigoActual.txt";
         //////GUARDANDO CÓDIGO
         String codigo = textPane.getText();
         File archivoDeCodigo = new File("src/lex/codigoActual.txt");
@@ -501,20 +557,30 @@ public class AreaTrabajo extends javax.swing.JFrame {
                         Yytoken token = null;
                         do {
                             token = a.nextToken();
-                            System.out.println("TOKEN lo trae?--> "+token);
-                            if(token.tipo.substring(0, 5).equals("Error")){
+                            System.out.println("TOKEN--> "+token);
+                            if(token != null){
+                            if(token.token.equals("Error")){
                                 StyleConstants.setForeground(style, Color.red);
                                 doc.insertString(doc.getLength(), token+"\n",style);
                                 compilo = false;
                             }
                             else {
                                 StyleConstants.setForeground(style, Color.black);
-                                doc.insertString(doc.getLength(), token+"\n",style);
-                                mostrarResultado +=token +"\n";
+                                doc.insertString(doc.getLength(), token +"\n",style);
+                                if(token != null){
+                                tableModel.addRow(new Object[]{
+                                    token.token,
+                                    token.tipo
+                                
+                                });
+                                }
                             }
-                            paneTablaSimbolos.setText(mostrarResultado);
-                            
-                            if(compilo){
+                            }
+                        } while (token != null);
+                    } catch (Exception ex) {
+                        Logger.getLogger(AreaTrabajo.class.getName()).log(Level.SEVERE, null, ex);
+                    } finally {
+                        if(compilo){
                                 StyleConstants.setForeground(style, Color.black);
                                 doc.insertString(doc.getLength(), "Se compilo correctamente!\n",style);
                             }
@@ -522,18 +588,13 @@ public class AreaTrabajo extends javax.swing.JFrame {
                                 StyleConstants.setForeground(style, Color.red);
                                 doc.insertString(doc.getLength(), "Falló la compilación (Existen errores)\n",style);
                             }
-                            
-                        } while (token != null);
-                    } catch (Exception ex) {
                         
-                    } finally {
                         try {
                             bf.close();
                         } catch (IOException ex) {
                             Logger.getLogger(AreaTrabajo.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    }
-                    mostrarResultado += "\n*** Ejecucion finalizada ***\n";
+                    }//Finally
     }//Fin compilar
     
     public boolean guardarArchivo(){
@@ -552,7 +613,7 @@ public class AreaTrabajo extends javax.swing.JFrame {
                         return true;
                     }
                 }catch(IOException ex){
-                    
+                    System.out.println(ex);
                 }
         }
         else{
@@ -564,7 +625,7 @@ public class AreaTrabajo extends javax.swing.JFrame {
                 writer.close();
                 paneSalida.setText("¡Se guardo correctamente!\n");
             }catch(FileNotFoundException e){
-               
+                System.out.println(e);
             }
         }
         return false;
@@ -602,9 +663,11 @@ public class AreaTrabajo extends javax.swing.JFrame {
                 new AreaTrabajo().setVisible(true);
             }
         });
-    }
+    }//Fin del main
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel PanelTexto1;
+    private javax.swing.JScrollPane Panel_Central;
     private javax.swing.JButton btnAbrir;
     private javax.swing.JButton btnCompilar;
     private javax.swing.JButton btnGenerar;
@@ -613,10 +676,8 @@ public class AreaTrabajo extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JMenuItem menuAbrir;
     private javax.swing.JMenu menuAcercaDe;
     private javax.swing.JMenu menuArchivo;
@@ -626,10 +687,11 @@ public class AreaTrabajo extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuNuevo;
     private javax.swing.JMenu menuOpciones;
     private javax.swing.JMenuItem menuSalir;
+    private javax.swing.JPanel paneAbajo;
     private javax.swing.JPanel paneAreaTrabajo;
     private javax.swing.JPanel paneBotones;
     private javax.swing.JTextPane paneSalida;
-    private javax.swing.JTextPane paneTablaSimbolos;
+    private javax.swing.JTable tablaSimbolos;
     private javax.swing.JTextPane textPane;
     // End of variables declaration//GEN-END:variables
 }//Fin clase
